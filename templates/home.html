@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1>Welcome to the Weather App</h1>
+    <p>Your quick glance at the weather in Tel Aviv:</p>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% elif weather_data %}
+        <div class="mt-4">
+            <h3>{{ weather_data['condition'] }}</h3>
+            <img src="{{ weather_data['icon'] }}" alt="{{ weather_data['condition'] }}" class="weather-icon">
+            <p>Temperature: {{ weather_data['temp'] }}°C</p>
+            <p>Feels like: {{ weather_data['feels_like'] }}°C</p>
+        </div>
+    {% else %}
+        <p>Unable to display weather data at this time.</p>
+    {% endif %}
+</div>
+{% endblock %}

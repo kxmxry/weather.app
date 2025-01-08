@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Weather Information</h2>
+
+    <!-- טופס בחירת מיקום -->
+    <form method="POST" action="/weather" class="mb-4">
+        <div class="mb-3">
+            <label for="location" class="form-label">Choose a location:</label>
+            <select id="location" name="location" class="form-select">
+                <option value="Tel Aviv" {% if location == "Tel Aviv" %}selected{% endif %}>Tel Aviv</option>
+                <option value="New York" {% if location == "New York" %}selected{% endif %}>New York</option>
+                <option value="London" {% if location == "London" %}selected{% endif %}>London</option>
+                <option value="Tokyo" {% if location == "Tokyo" %}selected{% endif %}>Tokyo</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Get Weather</button>
+    </form>
+
+    <!-- התראות מזג אוויר -->
+    {% if alert %}
+        <div class="alert alert-warning">
+            <strong>Weather Alert:</strong> {{ alert }}
+        </div>
+    {% endif %}
+
+    <!-- נתוני מזג האוויר -->
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% elif weather_data %}
+        <div class="text-center">
+            <h3>Weather in {{ location }}</h3>
+            <img src="{{ weather_data['icon'] }}" alt="{{ weather_data['condition'] }}" class="weather-icon">
+            <p>{{ weather_data['condition'] }}</p>
+            <p>Temperature: {{ weather_data['temp'] }}°C</p>
+            <p>Feels like: {{ weather_data['feels_like'] }}°C</p>
+            <p>Humidity: {{ weather_data['humidity'] }}%</p>
+        </div>
+
+        <!-- המלצות לבוש -->
+        {% if clothing_recommendation %}
+            <div class="mt-4 text-center">
+                <h4>Clothing Recommendation:</h4>
+                <p>{{ clothing_recommendation }}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
